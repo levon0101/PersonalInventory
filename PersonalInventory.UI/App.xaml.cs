@@ -1,4 +1,6 @@
-﻿using PersonalInventory.UI.Data;
+﻿using Autofac;
+using PersonalInventory.UI.Data;
+using PersonalInventory.UI.Startup;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,9 +18,10 @@ namespace PersonalInventory.UI
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var mainWindow = new MainWindow(
-               new ViewModel.MainViewModel(
-                   new ItemDataService()));
+            var bootstrapper = new Bootstrapper();
+            var container = bootstrapper.Bootstrap();
+
+            var mainWindow = container.Resolve<MainWindow>();
 
             mainWindow.Show();
         }
