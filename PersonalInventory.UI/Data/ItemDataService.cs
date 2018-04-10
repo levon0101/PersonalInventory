@@ -1,6 +1,8 @@
-﻿using PersonalInventory.Model;
+﻿using PersonalInventory.DataAccess;
+using PersonalInventory.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,12 +11,21 @@ namespace PersonalInventory.UI.Data
 {
     public class ItemDataService : IItemDataService
     {
-        public IEnumerable<Item> GetAll()
+        private Func<PersonalInventoryDbContext> _contextCreator;
+
+        public ItemDataService(Func<PersonalInventoryDbContext> contextCreator)
         {
-            yield return new Item { ItemName = "Arduino Uno", ItemModel = "R3", ItemDescription = "3$", Cost = 3.5, SailPrice = 2300 };
-            yield return new Item { ItemName = "Arduino Nano", ItemModel = "R3", ItemDescription = "3$", Cost = 2.9, SailPrice = 2000 };
-            yield return new Item { ItemName = "LCD 1602", ItemModel = "1602", ItemDescription = "3$", Cost = 2, SailPrice = 2000 };
-            yield return new Item { ItemName = "Usb To TTL", ItemModel = "", ItemDescription = "", Cost = 1, SailPrice = 1000 };
+            _contextCreator = contextCreator;
+        }
+        public async Task<List<Item>> GetAllAsync()
+        {
+           
+            using (var ctx = _contextCreator())
+            {
+               var item =  await ctx.Items.AsNoTracking().ToListAsync();
+               await  Task.Delay(5000);
+                return item;
+            }
         }
     }
 }

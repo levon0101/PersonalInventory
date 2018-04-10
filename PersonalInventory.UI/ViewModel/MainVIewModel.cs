@@ -2,6 +2,7 @@
 using PersonalInventory.UI.Data;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace PersonalInventory.UI.ViewModel
@@ -20,9 +21,9 @@ namespace PersonalInventory.UI.ViewModel
             _itemDataService = itemDataService;
         }
 
-        public void Load()
+        public async Task LoadAsync()
         {
-            var items = _itemDataService.GetAll();
+            var items = await _itemDataService.GetAllAsync();
 
             Items.Clear();
             foreach (var item in items)
