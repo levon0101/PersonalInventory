@@ -4,8 +4,8 @@ using PersonalInventory.Model;
 
 namespace PersonalInventory.UI.Data
 {
-    public interface IItemDataService
+    public interface IItemLookupDataService
     {
-        Task<Item> GetByIdAsync(int itemId);
+        Task<IEnumerable<LookupItem>> GetItemLookupAsync();
     }
 }

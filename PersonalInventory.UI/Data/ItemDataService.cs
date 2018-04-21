@@ -17,15 +17,26 @@ namespace PersonalInventory.UI.Data
         {
             _contextCreator = contextCreator;
         }
-        public async Task<List<Item>> GetAllAsync()
+
+        public async Task<Item> GetByIdAsync(int itemId)
         {
-           
             using (var ctx = _contextCreator())
             {
-               var item =  await ctx.Items.AsNoTracking().ToListAsync();
-               await  Task.Delay(5000);
+                var item = await ctx.Items.AsNoTracking().SingleAsync(f => f.Id == itemId);
+                // await Task.Delay(5000);
                 return item;
             }
         }
+
+        //public async Task<List<Item>> GetAllAsync()
+        //{
+        //    using (var ctx = _contextCreator())
+        //    {
+        //        var item = await ctx.Items.AsNoTracking().ToListAsync();
+        //        await Task.Delay(5000);
+        //        return item;
+        //    }
+        //}
+
     }
 }

@@ -10,41 +10,23 @@ namespace PersonalInventory.UI.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
-        public ObservableCollection<Item> Items { get; set; }
 
-        private Item _selectedItem;
-        private IItemDataService _itemDataService;
-
-        public MainViewModel(IItemDataService itemDataService)
+        public MainViewModel(INavigationViewModel navigationViewModel,
+            IItemDetailViewModel itemDetailViewModel)
         {
-            Items = new ObservableCollection<Item>();
-            _itemDataService = itemDataService;
+            NavigationViewModel = navigationViewModel;
+            ItemDetailViewModel = itemDetailViewModel;
         }
+
 
         public async Task LoadAsync()
         {
-            var items = await _itemDataService.GetAllAsync();
-
-            Items.Clear();
-            foreach (var item in items)
-            {
-                Items.Add(item);
-            }
-            //SelectedItem = Items.First();
-            //MessageBox.Show(Items.First().ItemName);
+            await NavigationViewModel.LoadAsync();
         }
 
 
-        public Item SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
-                _selectedItem = value;
-                OnPropertyChanged();
-            }
-        }
-
+        public INavigationViewModel NavigationViewModel { get; }
+        public IItemDetailViewModel ItemDetailViewModel { get; }
     }
 
 

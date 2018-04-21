@@ -4,58 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PersonalInventory.UI"
+        xmlns:view="clr-namespace:PersonalInventory.UI.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" FontSize="22">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/> 
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Items}" 
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                  DisplayMemberPath="ItemName">
-        </ListView>
-       
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Label Content="ItemName" Margin="10 10 10 0" />
-            <TextBox Grid.Row="1" Text="{Binding SelectedItem.ItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10"/>
-
-            <Label Content="ItemModel" Margin="10 0" Grid.Row="2" />
-            <TextBox Grid.Row="3" Text="{Binding SelectedItem.ItemModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10"/>
-
-            <Label Content="Cost" Margin="10 0" Grid.Row="4" />
-            <TextBox Grid.Row="5" Text="{Binding SelectedItem.Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10"/>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" />
+        <view:ItemDetailView Grid.Column="1" DataContext="{Binding ItemDetailViewModel}" />
 
 
-            <Label Content="SailPrice" Margin="10 0" Grid.Row="6" />
-            <TextBox Grid.Row="7" Text="{Binding SelectedItem.SailPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10"/>
-
-
-
-            <Label Content="ItemDescription" Margin="10 0" Grid.Row="8" />
-            <TextBox Grid.Row="9" Text="{Binding SelectedItem.ItemDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0 10 10"/>
-
-        </Grid>
     </Grid>
 
     <!--<Grid>
