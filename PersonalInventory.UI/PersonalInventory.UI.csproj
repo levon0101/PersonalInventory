@@ -76,12 +76,14 @@
     <Compile Include="Data\IItemLookupDataService.cs" />
     <Compile Include="Data\ItemDataService.cs" />
     <Compile Include="Data\LookupDataService.cs" />
+    <Compile Include="Event\AfterItemSavedEvent.cs" />
     <Compile Include="Event\OpenItemDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\IItemDetailViewModel.cs" />
     <Compile Include="ViewModel\INavigationViewModel.cs" />
     <Compile Include="ViewModel\ItemDetailViewModel.cs" />
     <Compile Include="ViewModel\MainVIewModel.cs" />
+    <Compile Include="ViewModel\NavigationItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationViewModel.cs" />
     <Compile Include="ViewModel\VIewModelBase.cs" />
     <Compile Include="View\ItemDetailView.xaml.cs">

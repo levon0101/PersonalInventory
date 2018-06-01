@@ -28,6 +28,16 @@ namespace PersonalInventory.UI.Data
             }
         }
 
+        public async Task SaveAsync(Item item)
+        {
+            using(var ctx = _contextCreator())
+            {
+                ctx.Items.Attach(item);
+                ctx.Entry(item).State = EntityState.Modified;
+                await ctx.SaveChangesAsync();
+            }
+        }
+
         //public async Task<List<Item>> GetAllAsync()
         //{
         //    using (var ctx = _contextCreator())

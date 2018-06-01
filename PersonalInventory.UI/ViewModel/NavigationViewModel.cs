@@ -21,7 +21,15 @@ namespace PersonalInventory.UI.ViewModel
         {
             _itemLookupDataService = itemLookupDataService;
             _eventAggregator = eventAggregator;
-            Items = new ObservableCollection<LookupItem>();
+            Items = new ObservableCollection<NavigationItemViewModel>();
+            _eventAggregator.GetEvent<AfterItemSavedEvent>().Subscribe(AfterFriendSaved);
+        }
+
+        private void AfterFriendSaved(AfterItemSavedEventArgs obj)
+        {
+            var lookup = Items.Single(f => f.Id == obj.Id);
+            lookup.DisplayMember = obj.DisplayMember;
+
         }
 
         public async Task LoadAsync()
@@ -30,15 +38,15 @@ namespace PersonalInventory.UI.ViewModel
             Items.Clear();
             foreach (var item in lookup)
             {
-                Items.Add(item);
+                Items.Add(new NavigationItemViewModel(item.Id, item.DisplayMember));
             }
         }
 
-        public ObservableCollection<LookupItem> Items { get; }
+        public ObservableCollection<NavigationItemViewModel> Items { get; }
 
-        private LookupItem _selectedItem;
+        private NavigationItemViewModel _selectedItem;
 
-        public LookupItem SelectedItem
+        public NavigationItemViewModel SelectedItem
         {
             get { return _selectedItem; }
             set

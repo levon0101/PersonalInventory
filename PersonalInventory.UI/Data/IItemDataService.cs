@@ -7,5 +7,6 @@ namespace PersonalInventory.UI.Data
     public interface IItemDataService
     {
         Task<Item> GetByIdAsync(int itemId);
+        Task SaveAsync(Item item);
     }
 }

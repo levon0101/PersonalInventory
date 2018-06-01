@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label Content="ItemName" Margin="10 10 10 0" />
@@ -45,5 +46,9 @@
         <TextBox Grid.Row="9" Text="{Binding SelectedItem.ItemDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Margin="10 0 10 10"/>
 
+        <StackPanel Grid.Row="11" Orientation="Horizontal">
+            <Button Width="125" Command="{Binding SaveCommand}"
+                    Content="Save" Margin="10"/>
+        </StackPanel>
     </Grid>
 </UserControl>

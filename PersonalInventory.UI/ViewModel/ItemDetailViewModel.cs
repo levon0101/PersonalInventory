@@ -1,12 +1,14 @@
 ﻿using PersonalInventory.Model;
 using PersonalInventory.UI.Data;
 using PersonalInventory.UI.Event;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PersonalInventory.UI.ViewModel
 {
@@ -22,11 +24,29 @@ namespace PersonalInventory.UI.ViewModel
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OpenItemDetailViewEvent>()
                 .Subscribe(OnOpenFriendDetailView);
+
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+        }
+
+        private async void OnSaveExecute()
+        {
+            await _dataService.SaveAsync(Item);
+            _eventAggregator.GetEvent<AfterItemSavedEvent>()
+                .Publish(new AfterItemSavedEventArgs
+                {
+                    Id = Item.Id,
+                    DisplayMember = Item.ItemName
+                });
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return true;
         }
 
         private async void OnOpenFriendDetailView(int itemId)
         {
-           await LoadAsync(itemId);
+            await LoadAsync(itemId);
         }
 
         public async Task LoadAsync(int itemId)
@@ -46,6 +66,6 @@ namespace PersonalInventory.UI.ViewModel
             }
         }
 
-
+        public ICommand SaveCommand { get; }
     }
 }
