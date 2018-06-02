@@ -11,6 +11,7 @@ namespace PersonalInventory.Model
     {
         public int Id { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string ItemName { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using PersonalInventory.Model;
 using PersonalInventory.UI.Data;
 using PersonalInventory.UI.Event;
+using PersonalInventory.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -14,6 +15,7 @@ namespace PersonalInventory.UI.ViewModel
 {
     public class ItemDetailViewModel : ViewModelBase, IItemDetailViewModel
     {
+        private ItemWrapper _item;
         private IItemDataService _dataService;
         private IEventAggregator _eventAggregator;
 
@@ -28,35 +30,24 @@ namespace PersonalInventory.UI.ViewModel
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
-        private async void OnSaveExecute()
-        {
-            await _dataService.SaveAsync(Item);
-            _eventAggregator.GetEvent<AfterItemSavedEvent>()
-                .Publish(new AfterItemSavedEventArgs
-                {
-                    Id = Item.Id,
-                    DisplayMember = Item.ItemName
-                });
-        }
-
-        private bool OnSaveCanExecute()
-        {
-            return true;
-        }
-
-        private async void OnOpenFriendDetailView(int itemId)
-        {
-            await LoadAsync(itemId);
-        }
-
         public async Task LoadAsync(int itemId)
         {
-            Item = await _dataService.GetByIdAsync(itemId);
+            var item = await _dataService.GetByIdAsync(itemId);
+
+            Item = new ItemWrapper(item);
+
+            Item.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Item.HasErrors))
+                {
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+            };
+
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
-        private Item _item;
-
-        public Item Item
+        public ItemWrapper Item
         {
             get { return _item; }
             set
@@ -67,5 +58,27 @@ namespace PersonalInventory.UI.ViewModel
         }
 
         public ICommand SaveCommand { get; }
+
+        private async void OnSaveExecute()
+        {
+            await _dataService.SaveAsync(Item.Model);
+            _eventAggregator.GetEvent<AfterItemSavedEvent>()
+                .Publish(new AfterItemSavedEventArgs
+                {
+                    Id = Item.Id,
+                    DisplayMember = Item.ItemName
+                });
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            //Chack if friend has changes
+            return Item != null && !Item.HasErrors;
+        }
+
+        private async void OnOpenFriendDetailView(int itemId)
+        {
+            await LoadAsync(itemId);
+        }
     }
 }

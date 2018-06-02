@@ -52,6 +52,10 @@
     <Compile Include="Migrations\201804101212321_InitDb.Designer.cs">
       <DependentUpon>201804101212321_InitDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806021840185_updateItemColumnDataAnotation.cs" />
+    <Compile Include="Migrations\201806021840185_updateItemColumnDataAnotation.Designer.cs">
+      <DependentUpon>201806021840185_updateItemColumnDataAnotation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PersonalInventoryDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +73,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201804101212321_InitDb.resx">
       <DependentUpon>201804101212321_InitDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806021840185_updateItemColumnDataAnotation.resx">
+      <DependentUpon>201806021840185_updateItemColumnDataAnotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

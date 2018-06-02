@@ -25,5 +25,13 @@ namespace PersonalInventory.UI
 
             mainWindow.Show();
         }
+
+        private void Application_DispatcherUnhandledException(object sender,
+            System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Unhandled exception occured, " +
+                "please inform Admins. " +Environment.NewLine + e.Exception.Message + " Unexpected Error");
+            e.Handled = true; 
+        }
     }
 }
